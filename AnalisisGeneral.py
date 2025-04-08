@@ -146,7 +146,9 @@ if __name__ == "__main__":
         'L2/users.csv',
         'L1/Books_rating.csv',
         'L1/books_data.csv',
-
+        'integrated_books.csv',
+        'integrated_ratings.csv',
+        'integrated_users.csv'
     ]
 
     print(f"Iniciando análisis para {len(files_to_analyze)} archivo(s) especificado(s)...")
