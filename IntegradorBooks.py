@@ -178,17 +178,11 @@ if __name__ == "__main__":
 
         integrated_data = integrator.integrate_data(data_sources)
         
-        # Fusionar registros duplicados
-        print("\nFusionando registros duplicados...")
-        merged_data = integrator.merge_duplicate_books(integrated_data)
-        
         # Mostrar estadísticas de fusión
         print(f"Registros originales: {len(integrated_data)}")
-        print(f"Registros después de fusionar duplicados: {len(merged_data)}")
-        print(f"Registros fusionados: {len(integrated_data) - len(merged_data)}")
         
         # Guardar los datos integrados y fusionados
-        merged_data.to_csv('C:/Users/apkar/Desktop/Gonza/FING/S7/CDI/integrated_books.csv', 
+        integrated_data.to_csv('C:/Users/apkar/Desktop/Gonza/FING/S7/CDI/integrated_books.csv', 
                           index=False, 
                           quotechar='"',
                           encoding='utf-8')  # Guardamos en UTF-8
@@ -196,11 +190,11 @@ if __name__ == "__main__":
         
         # Mostrar las primeras filas de los datos integrados
         print("\nPrimeras filas de los datos integrados y fusionados:")
-        print(merged_data.head())
+        print(integrated_data.head())
         
         # Mostrar información sobre las columnas
         print("\nColumnas en el dataset integrado y fusionado:")
-        print(merged_data.columns.tolist())
+        print(integrated_data.columns.tolist())
         
     except FileNotFoundError as e:
         print(f"Error: No se pudo encontrar el archivo de datos: {e}")
