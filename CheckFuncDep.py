@@ -6,8 +6,8 @@ files_config = [
     {
         'path': '../L1/Books_rating.csv',
         'sep': ',',
-        'lhs_cols': ['Id'],
-        'rhs_cols': ['Price']
+        'lhs_cols': ['User_id'],
+        'rhs_cols': ['profileName']
     },
 
     # Add more file and functional dependency configurations here
@@ -56,25 +56,21 @@ else:
             # Check for functional dependency violations
             # Group by LHS and count unique RHS combinations for each group
             grouped = df.groupby(lhs_cols)
-            violations = []
+            violation_found = False
+
             for name, group in grouped:
                 unique_rhs_count = group[rhs_cols].drop_duplicates().shape[0]
                 if unique_rhs_count > 1:
-                    # Found a violation for this LHS group
-                    # Get the first few violating rows for illustration
-                    violating_rows = group[all_needed_cols].drop_duplicates().head()
-                    violations.append(violating_rows)
+                    # Found a violation
+                    print(f"  VIOLATION: Functional dependency {lhs_cols} -> {rhs_cols} is violated.")
+                    print("    Example of violation (LHS value with multiple RHS values):")
+                    violating_rows = group[lhs_cols + rhs_cols].drop_duplicates().head()
+                    print(violating_rows.to_string(index=False))
+                    violation_found = True
+                    break  # Salir del bucle al encontrar la primera violación
 
-
-            if not violations:
+            if not violation_found:
                 print(f"  OK: Functional dependency {lhs_cols} -> {rhs_cols} holds.")
-            else:
-                print(f"  VIOLATION: Functional dependency {lhs_cols} -> {rhs_cols} is violated.")
-                print("    Examples of violations (LHS values with multiple RHS values):")
-                # Combine violation examples into one DataFrame for printing
-                violations_df = pd.concat(violations, ignore_index=True)
-                print(violations_df.to_string(index=False))
-
 
         except FileNotFoundError:
             print(f"  Error: File not found {file_path}")
