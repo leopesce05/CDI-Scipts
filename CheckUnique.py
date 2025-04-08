@@ -3,11 +3,6 @@ import pandas as pd
 # Configure the files and their specific settings
 files_config = [
     {
-        'path': '../L1/books_data.csv',
-        'columns': ['Title'],  # Columns to check for uniqueness in this file
-        'sep': ','       # Separator for this file
-    },
-    {
         'path': '../L1/Books_rating.csv',
         'columns': ['Id', 'User_id'], # Different columns and separator
         'sep': ','

@@ -4,17 +4,12 @@ import pandas as pd
 # For each file, specify: path, separator, left-hand-side columns (lhs_cols), right-hand-side columns (rhs_cols)
 files_config = [
     {
-        'path': '../L1/books_data.csv',
-        'sep': ',',
-        'lhs_cols': ['Title'],        # Example: Title -> Publisher
-        'rhs_cols': ['publisher']
-    },
-    {
         'path': '../L1/Books_rating.csv',
         'sep': ',',
-        'lhs_cols': ['User_id', 'Id'], # Example: (User_id, Id) -> Rating
-        'rhs_cols': ['Rating']
+        'lhs_cols': ['Id'],
+        'rhs_cols': ['Price']
     },
+
     # Add more file and functional dependency configurations here
 ]
 
