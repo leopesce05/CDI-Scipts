@@ -244,7 +244,7 @@ if __name__ == "__main__":
 
 
         # Guardar los datos integrados (sin fusión de duplicados)
-        output_path = 'integrated_books_no_duplicates_merged.csv' # Changed output filename
+        output_path = 'integrated_books.csv' # Changed output filename
         integrated_data.to_csv(output_path, # Saving integrated_data directly
                                  index=False,
                                  quotechar='"',
