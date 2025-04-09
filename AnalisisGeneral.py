@@ -141,11 +141,6 @@ if __name__ == "__main__":
         sys.exit(1)
 
     files_to_analyze = [
-        'L2/books.csv',
-        'L2/ratings.csv',
-        'L2/users.csv',
-        'L1/Books_rating.csv',
-        'L1/books_data.csv',
         'integrated_books.csv',
         'integrated_ratings.csv',
         'integrated_users.csv'
