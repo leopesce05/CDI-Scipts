@@ -76,8 +76,8 @@ class DataIntegrator:
 if __name__ == "__main__":
     try:
         # Cargar datos de usuarios
-        users_cleaned = pd.read_csv('C:/Users/apkar/Desktop/Gonza/FING/S7/CDI/L2/users_cleaned.csv', 
-                                  sep=',',
+        users_cleaned = pd.read_csv('C:/Users/apkar/Desktop/Gonza/FING/S7/CDI/L2/users.csv', 
+                                  sep=';',
                                   quotechar='"',
                                   encoding='latin-1',
                                   on_bad_lines='warn')
