@@ -6,6 +6,7 @@ L1_PATH = '../../L1'
 L2_PATH = '../../L2'
 OUTPUT_PATH = '../../integratedCSVs'
 
+
 # Crear directorio de salida si no existe
 os.makedirs(OUTPUT_PATH, exist_ok=True)
 
