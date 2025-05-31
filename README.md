@@ -19,7 +19,7 @@ Este repositorio contiene scripts para el procesamiento y análisis de datos de 
 - Estos scripts realizarán el procesamiento inicial de los datos
 
 ### 3. Configuración del Entorno
-- Crear un archivo `.env` en el directorio raíz del proyecto
+- Crear un archivo `.env` en el directorio raíz del proyecto (mismo nivel que este README)
 - Agregar las siguientes variables de entorno (reemplazar los valores con tus credenciales):
 ```
 DB_HOST=
@@ -40,7 +40,6 @@ Este script realizará las siguientes operaciones:
 - Inserción de datos de dimensiones
 - Inserción de métricas
 - Inserción de métodos
-
 
 ### 5. Ejecución de Scripts de Tarea 3
 - Los scripts de la tarea 3 pueden ejecutarse en cualquier orden
