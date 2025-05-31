@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 
 def analyze_csv_nulls(csv_path):
-    """Analyze null values in a CSV file and return statistics."""
+    """Analyze null values and data types in a CSV file and return statistics."""
     print(f"\nAnalyzing file: {csv_path}")
     
     # Try different encodings
@@ -12,7 +12,7 @@ def analyze_csv_nulls(csv_path):
     
     for encoding in encodings:
         try:
-            df = pd.read_csv(csv_path, encoding=encoding)
+            df = pd.read_csv(csv_path, encoding=encoding, low_memory=False)
             print(f"Successfully read file with {encoding} encoding")
             break
         except UnicodeDecodeError:
@@ -31,14 +31,38 @@ def analyze_csv_nulls(csv_path):
     
     # Analyze each column
     print("\nColumn Analysis:")
-    print("-" * 50)
-    print(f"{'Column Name':<30} {'Null Count':<15} {'Null Percentage':<15}")
-    print("-" * 50)
+    print("-" * 100)
+    print(f"{'Column Name':<30} {'Data Type':<15} {'Null Count':<15} {'Null %':<10} {'Unique Values':<15} {'Sample Values'}")
+    print("-" * 100)
     
     for column in df.columns:
+        # Basic statistics
         null_count = df[column].isnull().sum()
         null_percentage = (null_count / total_rows) * 100
-        print(f"{column:<30} {null_count:<15,} {null_percentage:.2f}%")
+        data_type = str(df[column].dtype)
+        unique_count = df[column].nunique()
+        
+        # Get sample values (non-null)
+        sample_values = df[column].dropna().head(3).tolist()
+        sample_str = str(sample_values)[:50] + "..." if len(str(sample_values)) > 50 else str(sample_values)
+        
+        # Print column analysis
+        print(f"{column:<30} {data_type:<15} {null_count:<15,} {null_percentage:>6.2f}% {unique_count:<15,} {sample_str}")
+    
+    # Print summary statistics
+    print("\nSummary Statistics:")
+    print("-" * 50)
+    print(f"Total Columns: {len(df.columns)}")
+    print(f"Total Rows: {total_rows:,}")
+    print(f"Memory Usage: {df.memory_usage(deep=True).sum() / 1024 / 1024:.2f} MB")
+    
+    # Print columns with high null percentage
+    high_null_cols = [col for col in df.columns if df[col].isnull().mean() > 0.5]
+    if high_null_cols:
+        print("\nColumns with more than 50% null values:")
+        for col in high_null_cols:
+            null_percentage = (df[col].isnull().sum() / total_rows) * 100
+            print(f"- {col}: {null_percentage:.2f}% null")
 
 def main():
     # Directory containing CSV files
