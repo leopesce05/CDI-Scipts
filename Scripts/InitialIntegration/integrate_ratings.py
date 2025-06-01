@@ -18,14 +18,16 @@ try:
     l1_ratings = pd.read_csv(os.path.join(L1_PATH, 'Books_rating.csv'), 
                             dtype={'Id': str, 'User_id': str, 'review/score': float, 
                                    'review/time': int, 'review/summary': str, 
-                                   'review/text': str, 'Price': str, 'Title': str},
+                                   'review/text': str, 'Price': str, 'Title': str,
+                                   'review/helpfulness': str},
                             encoding='latin1',
                             on_bad_lines='warn')
     print(f"L1 - Total de registros leídos: {len(l1_ratings)}")
     
     # Seleccionar y renombrar columnas de L1
     l1_ratings = l1_ratings[['Id', 'User_id', 'review/score', 'review/time', 
-                            'review/summary', 'review/text', 'Price', 'Title']]
+                            'review/summary', 'review/text', 'Price', 'Title',
+                            'review/helpfulness']]
     print(f"L1 - Después de seleccionar columnas: {len(l1_ratings)}")
     
     # Leer ratings de L2
@@ -51,6 +53,7 @@ try:
     l2_ratings_processed['review/text'] = None
     l2_ratings_processed['Price'] = None
     l2_ratings_processed['Title'] = None
+    l2_ratings_processed['review/helpfulness'] = None
     print(f"L2 - Después de procesar: {len(l2_ratings_processed)}")
     
     # Combinar los ratings

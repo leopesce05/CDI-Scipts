@@ -1,0 +1,5 @@
+# Ignore all CSV files in any directory
+# This will prevent data files from being committed
+
+*.csv
+*.env
