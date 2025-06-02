@@ -45,3 +45,29 @@ Este script realizará las siguientes operaciones:
 - Los scripts de la tarea 3 pueden ejecutarse en cualquier orden
 - Cada script guardará sus resultados en la base de datos
 - Asegurarse de que la base de datos esté correctamente configurada antes de ejecutar estos scripts 
+
+## Métricas y Calificaciones de Calidad
+
+### Métricas de Calificación Directa (alto % = bueno)
+- `ExactSint-ReglaCorrecta-ISBN_ap` (Exactitud Sintáctica)
+- `IntDominio-OutBounds-Gen-ContarNum_ap` (Integridad de Dominio)
+- `Precision-Fechas_ap` (Precisión)
+
+**Enfoques de evaluación para métricas directas**:
+- 0-30%: Mala
+- 31-60%: Buena
+- 61-90%: Muy buena
+- 91-100%: Excelente
+
+### Métricas de Calificación Inversa (bajo % = bueno)
+- `Densidad-Grado-Contar_ap` (Densidad)
+- `NoDuplicacion-CantDups-Contar_ap` (No Duplicación)
+- `IntInterRel-Pertenencia_ap` (Integridad Interrelación)
+
+**Enfoques de evaluación para métricas inversas**:
+- 0-30%: Excelente
+- 31-60%: Muy buena
+- 61-90%: Buena
+- 91-100%: Mala
+
+*Nota: Las métricas de calificación directa consideran un alto porcentaje como bueno, mientras que las métricas de calificación inversa consideran un bajo porcentaje como bueno.* 

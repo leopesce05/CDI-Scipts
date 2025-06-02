@@ -90,6 +90,7 @@ def crear_base_datos():
                 nombreAtributo VARCHAR(100) NOT NULL,
                 idTupla VARCHAR(50) NOT NULL,
                 valorCD JSONB NOT NULL,
+                calidad VARCHAR(20) NOT NULL,
                 PRIMARY KEY (executionId, nombreTabla, nombreAtributo, idTupla),
                 FOREIGN KEY (executionId) REFERENCES ResultadoEjecucion(executionId) ON DELETE CASCADE
             )
@@ -101,6 +102,7 @@ def crear_base_datos():
                 nombreTabla VARCHAR(100) NOT NULL,
                 nombreAtributo VARCHAR(100) NOT NULL,
                 valorCD JSONB NOT NULL,
+                calidad VARCHAR(20) NOT NULL,
                 PRIMARY KEY (executionId, nombreTabla, nombreAtributo),
                 FOREIGN KEY (executionId) REFERENCES ResultadoEjecucion(executionId) ON DELETE CASCADE
             )

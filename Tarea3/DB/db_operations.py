@@ -4,6 +4,7 @@ from datetime import datetime
 import uuid
 from dotenv import load_dotenv
 import os
+from DB.quality_utils import get_quality_rating, METRIC_TYPES
 
 # Cargar variables de entorno desde .env
 load_dotenv()
@@ -85,26 +86,74 @@ class DBOperations:
 
     def guardar_resultado_columna(self, execution_id, nombre_tabla, nombre_atributo, valor):
         """
-        Guarda el resultado de una columna completa
-        
-        Args:
-            execution_id (str): ID de la ejecución
-            nombre_tabla (str): Nombre de la tabla
-            nombre_atributo (str): Nombre del atributo
-            valor (dict): Valor a guardar en formato JSON
+        Guarda el resultado de una columna en la base de datos.
         """
         try:
             with self.conn.cursor() as cursor:
+                # Obtener el método aplicado para esta ejecución
+                cursor.execute(
+                    "SELECT metodo_aplicado_id FROM ResultadoEjecucion WHERE executionId = %s",
+                    (execution_id,)
+                )
+                metodo_aplicado = cursor.fetchone()[0]
+                
+                # Determinar si la métrica es inversa
+                is_inverse = METRIC_TYPES.get(metodo_aplicado, False)
+                
+                # Obtener el porcentaje del valor
+                porcentaje = valor['valor']
+                
+                # Determinar la calidad
+                calidad = get_quality_rating(porcentaje, is_inverse)
+                
+                # Insertar el resultado con la calidad
                 cursor.execute(
                     """
                     INSERT INTO resultadoColumna 
-                    (executionId, nombreTabla, nombreAtributo, valorCD)
-                    VALUES (%s, %s, %s, %s)
+                    (executionId, nombreTabla, nombreAtributo, valorCD, calidad)
+                    VALUES (%s, %s, %s, %s, %s)
                     """,
-                    (execution_id, nombre_tabla, nombre_atributo, json.dumps(valor))
+                    (execution_id, nombre_tabla, nombre_atributo, json.dumps(valor), calidad)
                 )
+                self.conn.commit()
         except Exception as e:
             print(f"Error al guardar resultado de columna: {e}")
+            raise
+
+    def guardar_resultado_celda_fila(self, execution_id, nombre_tabla, nombre_atributo, id_tupla, valor):
+        """
+        Guarda el resultado de una celda de fila en la base de datos.
+        """
+        try:
+            with self.conn.cursor() as cursor:
+                # Obtener el método aplicado para esta ejecución
+                cursor.execute(
+                    "SELECT metodo_aplicado_id FROM ResultadoEjecucion WHERE executionId = %s",
+                    (execution_id,)
+                )
+                metodo_aplicado = cursor.fetchone()[0]
+                
+                # Determinar si la métrica es inversa
+                is_inverse = METRIC_TYPES.get(metodo_aplicado, False)
+                
+                # Obtener el porcentaje del valor
+                porcentaje = valor['valor']
+                
+                # Determinar la calidad
+                calidad = get_quality_rating(porcentaje, is_inverse)
+                
+                # Insertar el resultado con la calidad
+                cursor.execute(
+                    """
+                    INSERT INTO resultadoCeldaFila 
+                    (executionId, nombreTabla, nombreAtributo, idTupla, valorCD, calidad)
+                    VALUES (%s, %s, %s, %s, %s, %s)
+                    """,
+                    (execution_id, nombre_tabla, nombre_atributo, id_tupla, json.dumps(valor), calidad)
+                )
+                self.conn.commit()
+        except Exception as e:
+            print(f"Error al guardar resultado de celda de fila: {e}")
             raise
 
     def obtener_resultados_ejecucion(self, execution_id):
