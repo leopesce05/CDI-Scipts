@@ -130,18 +130,18 @@ def insert_dimensions_and_factors():
         # Estructura de datos con dimensiones y sus factores
         dimensions_factors = {
             "Exactitud": [
-                "Exactitud Sintáctica",
-                "Precisión"
+                "Exactitud Sintactica",
+                "Precision"
             ],
             "Completitud": [
                 "Densidad"
             ],
             "Consistencia": [
                 "Integridad de Dominio",
-                "Integridad Interrelación"
+                "Integridad Interrelacion"
             ],
             "Unicidad": [
-                "No Duplicación"
+                "No Duplicacion"
             ]
         }
 
@@ -191,14 +191,14 @@ def insert_metrics():
         
         # Estructura de datos con métricas y sus factores asociados
         metrics_factors = {
-            "ExactSint-ReglaCorrecta": "Exactitud Sintáctica",
-            "ExactSint-Desviacion": "Exactitud Sintáctica",
+            "ExactSint-ReglaCorrecta": "Exactitud Sintactica",
+            "ExactSint-Desviacion": "Exactitud Sintactica",
             "Densidad-Grado": "Densidad",
-            "NoDuplicación-CantDups": "No Duplicación",
+            "NoDuplicacion-CantDups": "No Duplicacion",
             "IntDominio-OutBounds-Gen": "Integridad de Dominio",
             "IntDominio-OutBounds-Esp": "Integridad de Dominio",
-            "Precisión-CifrasSign-Bool": "Precisión",
-            "IntInterRel-Pertenece": "Integridad Interrelación"
+            "Precision-Granularidad": "Precision",
+            "IntInterRel-Pertenece": "Integridad Interrelacion"
         }
 
         with conn.cursor() as cursor:
@@ -252,19 +252,29 @@ def insert_methods():
                 "metrica_id": "Densidad-Grado"
             },
             {
-                "metodo_id": "NoDuplicacion-LeveshteinDistance",
-                "metodo_aplicado_id": "NoDuplicacion-LeveshteinDistance_ap",
-                "metrica_id": "NoDuplicación-CantDups"
-            },
-            {
-                "metodo_id": "NoDuplicación-CantDups-Contar",
-                "metodo_aplicado_id": "NoDuplicación-CantDups-Contar_ap",
-                "metrica_id": "NoDuplicación-CantDups"
+                "metodo_id": "NoDuplicacion-CantDups-Contar",
+                "metodo_aplicado_id": "NoDuplicacion-CantDups-Contar_ap",
+                "metrica_id": "NoDuplicacion-CantDups"
             },
             {
                 "metodo_id": "IntDominio-OutBounds-Gen-ContarNum",
                 "metodo_aplicado_id": "IntDominio-OutBounds-Gen-ContarNum_ap",
                 "metrica_id": "IntDominio-OutBounds-Gen"
+            },
+            {
+                "metodo_id": "IntDominio-OutBounds-Esp-ContarNum",
+                "metodo_aplicado_id": "IntDominio-OutBounds-Esp-ContarNum_ap",
+                "metrica_id": "IntDominio-OutBounds-Esp"
+            },
+            {
+                "metodo_id": "IntInterRel-Pertenencia",
+                "metodo_aplicado_id": "IntInterRel-Pertenencia_ap",
+                "metrica_id": "IntInterRel-Pertenece"
+            },
+            {
+                "metodo_id": "Precision-Fechas",
+                "metodo_aplicado_id": "Precision-Fechas_ap",
+                "metrica_id": "Precision-Granularidad"
             }
         ]
 
@@ -300,26 +310,15 @@ def insert_methods():
             conn.close()
 
 def init_database():
-    """Función principal que inicializa toda la base de datos"""
+    """Inicializa la base de datos con todas las tablas y datos necesarios"""
     try:
-        print("\n=== Iniciando inicialización de la base de datos ===\n")
-        
-        print("1. Creando base de datos y tablas...")
         crear_base_datos()
-        
-        print("\n2. Insertando dimensiones y factores...")
         insert_dimensions_and_factors()
-        
-        print("\n3. Insertando métricas...")
         insert_metrics()
-        
-        print("\n4. Insertando métodos y métodos aplicados...")
         insert_methods()
-        
-        print("\n=== Inicialización completada exitosamente ===\n")
-        
+        print("\n✓ Base de datos inicializada correctamente")
     except Exception as e:
-        print(f"\nError durante la inicialización: {e}")
+        print(f"Error al inicializar la base de datos: {e}")
         raise
 
 if __name__ == "__main__":

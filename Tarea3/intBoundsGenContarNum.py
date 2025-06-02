@@ -51,21 +51,24 @@ def contar_datos_en_rango(file_path, db, execution_id):
         try:
             # Contar valores en rango
             in_range = ((df[column] >= min_val) & (df[column] <= max_val)).sum()
+            total_rows = len(df)
+            in_range_percentage = round((in_range / total_rows) * 100, 2)
             
-            # Guardar resultado de columna - cantidad de valores en rango
+            # Guardar resultado de columna - porcentaje de valores en rango
             db.guardar_resultado_columna(
                 execution_id=execution_id,
                 nombre_tabla=os.path.basename(file_path).replace('.csv', ''),
                 nombre_atributo=column,
                 valor={
-                    'id': 'integer',
-                    'valor': int(in_range)
+                    'id': 'float',
+                    'valor': in_range_percentage
                 }
             )
             
             print(f"\nArchivo: {os.path.basename(file_path)}")
             print(f"Columna: {column}")
             print(f"Valores en rango [{min_val}, {max_val}]: {in_range}")
+            print(f"Porcentaje de valores en rango: {in_range_percentage:.2f}%")
             
         except Exception as e:
             print(f"Error al guardar resultados en la base de datos para la columna {column}: {e}")

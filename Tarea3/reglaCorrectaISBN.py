@@ -45,6 +45,8 @@ def check_isbn_format(file_path, db, execution_id):
             return
         
         valid_isbns = sum(df['Id'].apply(is_valid_isbn))
+        total_rows = len(df)
+        percentage_valid = round((valid_isbns/total_rows)*100, 2)
         
         # Guardar resultados en la base de datos
         try:
@@ -54,13 +56,15 @@ def check_isbn_format(file_path, db, execution_id):
                 nombre_tabla='books',
                 nombre_atributo='Id',
                 valor={
-                    'id': 'integer',
-                    'valor': valid_isbns
+                    'id': 'float',
+                    'valor': percentage_valid
                 }
             )
             
             print(f"\nArchivo: {os.path.basename(file_path)}")
+            print(f"Total de filas: {total_rows}")
             print(f"ISBNs válidos: {valid_isbns}")
+            print(f"Porcentaje de ISBNs válidos: {percentage_valid:.2f}%")
             
         except Exception as e:
             print(f"Error al guardar resultados en la base de datos: {e}")

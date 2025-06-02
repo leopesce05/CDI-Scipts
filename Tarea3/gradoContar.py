@@ -29,20 +29,24 @@ def analyze_csv_file(file_path, db, execution_id):
         # Procesar cada columna
         for column in df.columns:
             try:
-                # Guardar resultado de columna - total de valores nulos
+                # Calcular porcentaje de valores nulos
+                null_percentage = round((null_counts[column] / total_rows) * 100, 2)
+                
+                # Guardar resultado de columna - porcentaje de valores nulos
                 db.guardar_resultado_columna(
                     execution_id=execution_id,
                     nombre_tabla=os.path.basename(file_path).replace('.csv', ''),
                     nombre_atributo=column,
                     valor={
-                        'id': 'integer',
-                        'valor': int(null_counts[column])
+                        'id': 'float',
+                        'valor': null_percentage
                     }
                 )
                 
                 print(f"\nArchivo: {os.path.basename(file_path)}")
                 print(f"Columna: {column}")
                 print(f"Total de valores nulos: {null_counts[column]}")
+                print(f"Porcentaje de valores nulos: {null_percentage:.2f}%")
                 
             except Exception as e:
                 print(f"Error al guardar resultados en la base de datos para la columna {column}: {e}")

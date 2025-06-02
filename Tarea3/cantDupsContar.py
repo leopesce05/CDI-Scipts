@@ -46,21 +46,24 @@ def contar_duplicados(file_path, db, execution_id):
             try:
                 # Contar duplicados para la columna actual
                 duplicates = df[column].duplicated().sum()
+                total_rows = len(df)
+                duplicate_percentage = round((duplicates / total_rows) * 100, 2)
                 
-                # Guardar resultado de columna - total de duplicados
+                # Guardar resultado de columna - porcentaje de duplicados
                 db.guardar_resultado_columna(
                     execution_id=execution_id,
                     nombre_tabla=os.path.basename(file_path).replace('.csv', ''),
                     nombre_atributo=column,
                     valor={
-                        'id': 'integer',
-                        'valor': int(duplicates)
+                        'id': 'float',
+                        'valor': duplicate_percentage
                     }
                 )
                 
                 print(f"\nArchivo: {os.path.basename(file_path)}")
                 print(f"Columna: {column}")
                 print(f"Total de duplicados: {duplicates}")
+                print(f"Porcentaje de duplicados: {duplicate_percentage:.2f}%")
                 
             except Exception as e:
                 print(f"Error al guardar resultados en la base de datos para la columna {column}: {e}")
@@ -79,7 +82,7 @@ if __name__ == "__main__":
         
         # 1. Crear una nueva ejecución
         execution_id = db.crear_ejecucion(
-            metodo="NoDuplicación-CantDups-Contar_ap"
+            metodo="NoDuplicacion-CantDups-Contar_ap"
         )
         
         # 2. Procesar y guardar resultados
